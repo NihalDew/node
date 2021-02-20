@@ -4,7 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const mc = require('superagent');
 // import bodyParser from 'body-parser';
+const mailchimpInstance = 'us1', 
+// listUniqueId        = 'b6a82d89f0',
+mailchimpApiKey = '576fb4e6dab3fd2010efa5385c92f975-us1';
 const app = express_1.default();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
