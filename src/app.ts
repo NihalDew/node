@@ -11,7 +11,7 @@ const app = express();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.get('/', (req, res) => {
   res.send('My first node project');
 });
