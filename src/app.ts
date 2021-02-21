@@ -8,21 +8,6 @@ var smtpTransport = nodemailer.createTransport(mandrillTransport({
     }
 }));
 
-let mailData={
-    from : 'nihaldewangan487@gmail.com',
-    to : 'reciver@domain.com',
-    subject : "This is from Mandrill",
-    html : "Hello,<br>Sending this email using Node and Mandrill"
- };
-
- smtpTransport.sendMail(mailData, function(error: any, response: any){
-    if(error) {
-       throw new Error("Error in sending email");
-    }
-    console.log("Message sent: " + JSON.stringify(response));
-  });
-
-
 
 const app = express();
 
@@ -39,6 +24,21 @@ app.post('/pp', (req, res) => {
     //     data:{ success: ['List of Successful emails'], 
     //         failure:['List of Failed emails'] }
     //     });
+
+    let mailData={
+        from : req.body.from_email,
+        to : req.body.to["email"],
+        subject : req.body.subject,
+        html : req.body.html
+     };
+    
+     smtpTransport.sendMail(mailData, function(error: any, response: any){
+        if(error) {
+           throw new Error("Error in sending email");
+        }
+        console.log("Message sent: " + JSON.stringify(response));
+        console.log(req.body);
+      });
 
         const message = {
             "html": req.body.html,
