@@ -3,6 +3,24 @@ var nodemailer = require("nodemailer");
 // const mailchimpClient = require("mailchimp_transactional")("'fSTbY9Q5pNCqykcitjBqzw");
 var mandrillTransport = require('nodemailer-mandrill-transport');
 
+// ----------------------------------------
+var message = {
+    "html": "",
+    "text": "",
+    "subject": "",
+    "from_email": "",
+    "from_name": "",
+    "to": [{
+            "email": "",
+            "name": "",
+            "type": ""
+        }],
+    }
+// ---------------------------------------------
+
+
+
+
 var smtpTransport = nodemailer.createTransport(mandrillTransport({
     auth: {
       apiKey : 'fSTbY9Q5pNCqykcitjBqzw'
@@ -26,22 +44,9 @@ app.post('/pp', (req, res) => {
     //         failure:['List of Failed emails'] }
     //     });
 
-    let mailData={
-        from : req.body.from_email,
-        to : req.body.to["email"],
-        subject : req.body.subject,
-        html : req.body.html
-     };
     
-     smtpTransport.sendMail(mailData, function(error: any, response: any){
-        if(error) {
-           throw new Error("Error in sending email");
-        }
-        console.log("Message sent: " + JSON.stringify(response));
-        console.log(req.body);
-      });
 
-        const message = {
+         message = {
             "html": req.body.html,
             "text": req.body.text,
             "subject": req.body.subject,
@@ -73,6 +78,21 @@ app.post('/pp', (req, res) => {
             
 
         });
+
+        // let mailData={
+        //     from : req.body.from_email,
+        //     to : req.body.to["email"],
+        //     subject : req.body.subject,
+        //     html : req.body.html
+        //  };
+        
+         smtpTransport.sendMail(message, function(error: any, response: any){
+            if(error) {
+               throw new Error("Error in sending email");
+            }
+            console.log("Message sent: " + JSON.stringify(response));
+            // console.log(req.body);
+          });
 
           
 app.listen(port, () => {
