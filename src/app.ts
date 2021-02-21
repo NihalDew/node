@@ -1,10 +1,28 @@
 import express, { request, response } from 'express';
-const mc = require('superagent');
-// import bodyParser from 'body-parser';
+var nodemailer = require("nodemailer");
+var mandrillTransport = require('nodemailer-mandrill-transport');
 
-const mailchimpInstance   = 'us1',
-    // listUniqueId        = 'b6a82d89f0',
-    mailchimpApiKey     = '576fb4e6dab3fd2010efa5385c92f975-us1';
+var smtpTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey : 'fSTbY9Q5pNCqykcitjBqzw'
+    }
+}));
+
+let mailData={
+    from : 'nihaldewangan487@gmail.com',
+    to : 'reciver@domain.com',
+    subject : "This is from Mandrill",
+    html : "Hello,<br>Sending this email using Node and Mandrill"
+ };
+
+ smtpTransport.sendMail(mailData, function(error: any, response: any){
+    if(error) {
+       throw new Error("Error in sending email");
+    }
+    console.log("Message sent: " + JSON.stringify(response));
+  });
+
+
 
 const app = express();
 
@@ -17,15 +35,28 @@ app.get('/', (req, res) => {
 });
 
 app.post('/pp', (req, res) => {
-    // res.send(req.body);
-    // const res_c = String(res.status(200))
-    console.log(req.body)
-    res.jsonp({ status:200 , message:"Suitable Message",
-        data:{ success: ['List of Successful emails'], 
-            failure:['List of Failed emails'] }
-        });
-});
+    // res.jsonp({ status:200 , message:"Suitable Message",
+    //     data:{ success: ['List of Successful emails'], 
+    //         failure:['List of Failed emails'] }
+    //     });
 
+        const message = {
+            "html": req.body.html,
+            "text": req.body.text,
+            "subject": req.body.subject,
+            "from_email": req.body.from_email,
+            "from_name": req.body.from_name,
+            "to": [{
+                    "email": req.body.to["email"],
+                    "name": req.body.to["name"],
+                    "type": req.body.to["type"]
+                }],
+            }
+            
+
+        });
+
+          
 app.listen(port, () => {
   return console.log(`server is listening on ${port}`);
 });
