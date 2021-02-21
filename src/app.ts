@@ -1,13 +1,13 @@
 import express, { request, response } from 'express';
 var nodemailer = require("nodemailer");
-const mailchimpClient = require("mailchimp_transactional")("'fSTbY9Q5pNCqykcitjBqzw");
-// var mandrillTransport = require('nodemailer-mandrill-transport');
+// const mailchimpClient = require("mailchimp_transactional")("'fSTbY9Q5pNCqykcitjBqzw");
+var mandrillTransport = require('nodemailer-mandrill-transport');
 
-// var smtpTransport = nodemailer.createTransport(mandrillTransport({
-//     auth: {
-//       apiKey : 'fSTbY9Q5pNCqykcitjBqzw'
-//     }
-// }));
+var smtpTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey : 'fSTbY9Q5pNCqykcitjBqzw'
+    }
+}));
 
 
 const app = express();
@@ -26,20 +26,20 @@ app.post('/pp', (req, res) => {
     //         failure:['List of Failed emails'] }
     //     });
 
-    // let mailData={
-    //     from : req.body.from_email,
-    //     to : req.body.to["email"],
-    //     subject : req.body.subject,
-    //     html : req.body.html
-    //  };
+    let mailData={
+        from : req.body.from_email,
+        to : req.body.to["email"],
+        subject : req.body.subject,
+        html : req.body.html
+     };
     
-    //  smtpTransport.sendMail(mailData, function(error: any, response: any){
-    //     if(error) {
-    //        throw new Error("Error in sending email");
-    //     }
-    //     console.log("Message sent: " + JSON.stringify(response));
-    //     console.log(req.body);
-    //   });
+     smtpTransport.sendMail(mailData, function(error: any, response: any){
+        if(error) {
+           throw new Error("Error in sending email");
+        }
+        console.log("Message sent: " + JSON.stringify(response));
+        console.log(req.body);
+      });
 
         const message = {
             "html": req.body.html,
@@ -54,8 +54,8 @@ app.post('/pp', (req, res) => {
                 }],
             }
 
-            const run = async () => {
-            const api_res = await mailchimpClient.messages.send({ message: message });
+            // const run = async () => {
+            // const api_res = await mailchimpClient.messages.send({ message: message });
             // const api_res = await mailchimpClient.messages.send({ message: {"from_email":"nihaldewangan487@gmail.com", 
             //     "subject":"Hello World",
             //     "text":"Welcome to Mailchimp Transactional!",
@@ -66,8 +66,8 @@ app.post('/pp', (req, res) => {
             //             }
             //           ] 
             //            } });
-                console.log(api_res);
-              };
+                // console.log(api_res);
+            //   };
               
               run()
             
