@@ -5,17 +5,11 @@ var mandrillTransport = require('nodemailer-mandrill-transport');
 
 // ----------------------------------------
 var message = {
-    "html": "",
-    "text": "",
-    "subject": "",
-    "from_email": "",
-    "from_name": "",
-    "to": [{
-            "email": "",
-            "name": "",
-            "type": ""
-        }],
-    }
+        from : "",
+        to : "",
+        subject : "",
+        html : ""
+     };
 // ---------------------------------------------
 
 
@@ -47,17 +41,11 @@ app.post('/pp', (req, res) => {
     
 
          message = {
-            "html": req.body.html,
-            "text": req.body.text,
-            "subject": req.body.subject,
-            "from_email": req.body.from_email,
-            "from_name": req.body.from_name,
-            "to": [{
-                    "email": req.body.to["email"],
-                    "name": req.body.to["name"],
-                    "type": req.body.to["type"]
-                }],
-            }
+            from : req.body.from_email,
+            to : req.body.to["email"],
+            subject : req.body.subject,
+            html : req.body.html
+         };
 
             // const run = async () => {
             // const api_res = await mailchimpClient.messages.send({ message: message });
