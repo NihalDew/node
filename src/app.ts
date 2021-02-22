@@ -23,8 +23,9 @@ app.get('/', (req, res) => {
         box-sizing: border-box;
     }
     </style>
-    <h1 style="width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;font-size: 3rem;font-weight: 700;">
-        Hi there, This is the GET request.<br>(GlobalShala Backend Task)
+    <h1 style="width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-size: 3rem;font-weight: 700;">
+        <div> Hi there, This is the GET request.</div>
+        <div>(GlobalShala Backend Task)</div>
     </h1>`
     );
 });
@@ -54,17 +55,26 @@ app.post('/mail_send_api', (req, res) => {
     Array.from(mc_response).forEach(async (elem: any)=> {
       if (elem.status === "rejected" || elem.status === "invalid") failed_emails.unshift(elem)
       else sucseeded_emails.push(elem)
-  })
-  // send the response
-  res.status(200).jsonp({
-      status: 200,
-      message: `${sucseeded_emails.length} Sent, ${failed_emails.length} failed.`,
-      data: {
-          success: sucseeded_emails,
-          failure: failed_emails
-      }
-  })
+    })
+    // send the response
+    res.status(200).jsonp({
+        status: 200,
+        message: `${sucseeded_emails.length} Sent, ${failed_emails.length} failed.`,
+        data: {
+            success: sucseeded_emails,
+            failure: failed_emails
+        }
+    })
   });
+  run().catch((reason)=>{
+    res.jsonp({
+        status: "Unexpected error occured",
+        message: reason,
+        data: {
+            validationError: failed_emails
+        }
+    })
+})
 });
 
 app.listen(port, () => {
