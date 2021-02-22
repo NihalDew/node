@@ -64,8 +64,9 @@ app.post('/pp', (req, res) => {
 
             const run = async () => {
             // const api_res = await mailchimpClient.messages.send({ message: message });
-            const api_res = await mailchimpClient.messages.send({ message: {"from_email":"nihaldewangan487@gmail.com", 
-                "subject":"Hello World",
+            const api_res = await mailchimpClient.messages.send({ message: {
+              // "from_email":"nihaldewangan487@gmail.com", 
+                // "subject":"Hello World",
                 "text":"Welcome to Mailchimp Transactional!",
                 "to":[
                     {
