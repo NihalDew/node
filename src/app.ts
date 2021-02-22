@@ -12,7 +12,18 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 app.get('/', (req, res) => {
-  res.send('My first node project');
+  res.send(
+    `<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    </style>
+    <h1 style="width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;font-size: 3rem;font-weight: 700;">
+        Hi there, This is the GET request at root.
+    </h1>`
+    );
 });
 
 app.post('/mail_send_api', (req, res) => {
