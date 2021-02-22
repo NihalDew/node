@@ -34,13 +34,21 @@ app.get('/', (req, res) => {
 app.post('/mail_send_api', (req, res) => {
   sucseeded_emails = []
   failed_emails = []
+  let setUniqueEmails: string[] = []
+  let undupped_list:any[] = []
+  req.body.receiver.forEach((val:any, index:number) => {
+    if (!setUniqueEmails.includes(val.email)){
+      undupped_list.push(val)
+      setUniqueEmails.push(val.email)
+    }
+  })
   // Using MAILCHIMP API to send email
   const run = async () => {
     const api_res = await mailchimpClient.messages.send({
       message : {
         "html": req.body.messageBody,
         "from_email": "nihaldewangan487@gmail.com",
-        "to": req.body.receiver,
+        "to": undupped_list,
         "attachments": [
           {
             "type": "application/pdf",
