@@ -1,16 +1,19 @@
-import express, { request, response } from 'express';
-const mailchimpClient = require("@mailchimp/mailchimp_transactional")
-  (process.env.MAILCHIMP_API_KEY);
+// importing required modules
+import express from 'express';
+const mailchimpClient = require("@mailchimp/mailchimp_transactional")(process.env.MAILCHIMP_API_KEY);
 
 var failed_emails: any[];
 var sucseeded_emails: any[];
 
+// initializing express app
 const app = express();
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 const port = process.env.PORT || 5000;
+
+// Handling GET request 
 app.get('/', (req, res) => {
   res.send(
     `<style>
@@ -21,12 +24,15 @@ app.get('/', (req, res) => {
     }
     </style>
     <h1 style="width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;font-size: 3rem;font-weight: 700;">
-        Hi there, This is the GET request at root.
+        Hi there, This is the GET request.<br>(GlobalShala Backend Task)
     </h1>`
     );
 });
 
+// Handling POST request
 app.post('/mail_send_api', (req, res) => {
+
+  // Using MAILCHIMP API to send email
   const run = async () => {
     const api_res = await mailchimpClient.messages.send({
       message : {
