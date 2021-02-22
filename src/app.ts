@@ -32,7 +32,8 @@ app.get('/', (req, res) => {
 
 // Handling POST request
 app.post('/mail_send_api', (req, res) => {
-
+  sucseeded_emails = []
+  failed_emails = []
   // Using MAILCHIMP API to send email
   const run = async () => {
     const api_res = await mailchimpClient.messages.send({
